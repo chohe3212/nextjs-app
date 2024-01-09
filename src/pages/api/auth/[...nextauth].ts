@@ -44,6 +44,15 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt", // 데이터 베이스로 하면 디비에 저장됨.
   },
+  callbacks: {
+    async jwt({ token, user }) {
+      return { ...token, ...user };
+    },
+    async session({ session, token }) {
+      session.user = token;
+      return session;
+    },
+  },
 };
 
 export default NextAuth(authOptions);
